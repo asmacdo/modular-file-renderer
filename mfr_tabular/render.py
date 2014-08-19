@@ -1,33 +1,17 @@
+import json
+import os
 from mfr.core import RenderResult, get_file_extension
 from mako.lookup import TemplateLookup
-import json
 from .configuration import config
-import os
 
 template = TemplateLookup(
     directories=['mfr_tabular/templates']
 ).get_template('tabular.mako')
 
 
-CSS_FILES = [
-    "slick.grid.css",
-    "jquery-ui-1.8.16.custom.css",
-    "examples.css",
-    "slick-default-theme.css",
-]
-
-JS_FILES = [
-    "jquery-1.7.min.js",
-    "jquery.event.drag-2.2.js",
-    "slick.core.js",
-    "slick.grid.js",
-]
-
-
 def render_html(fp, src=None):
     """Render a tabular file to html
     :param fp: file pointer object
-    :param src:
     :return: RenderResult object containing html and assets
     """
 
@@ -50,8 +34,6 @@ def render_html(fp, src=None):
         rows=json.dumps(rows),
         # TODO(asmacdo) make this a title?
         writing="",
-        # TODO(asmacdo) investigate
-        STATIC_PATH="/mfr/mfr_tabular",
     )
 
     assets = {
@@ -72,7 +54,6 @@ def find_assets(asset_type):
             for filename in files]
 
 
-# TODO(asmacdo) better way of choosing the renderer
 def populate_data(fp):
     """Determine the appropriate library and use it to populate rows and columns
     :param fp: file pointer
